@@ -8,7 +8,7 @@
     "build": "webpack",
     "start": "webpack serve",
     "prepare": "husky install",
-    "start:server": "json-server-auth db.json"
+    "start:server": "json-server db.json -m ./node_modules/json-server-auth"
   },
   "keywords": [
     "abc",
@@ -28,6 +28,7 @@
     "@radix-ui/react-select": "^2.0.0",
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-toast": "^1.1.5",
+    "axios": "^1.6.8",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "cmdk": "^1.0.0",
@@ -71,7 +72,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "html-webpack-plugin": "^5.6.0",
     "husky": "^8.0.0",
-    "json-server": "^1.0.0-alpha.23",
+    "json-server": "^0.17.4",
     "json-server-auth": "^2.1.0",
     "lint-staged": "^15.2.0",
     "postcss": "^8.4.33",

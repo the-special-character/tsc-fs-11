@@ -15,6 +15,8 @@ import { TodoProvider } from './context/todoContext';
 import AuthLayout from './layout/authLayout';
 import Register from './pages/register';
 import Login from './pages/login';
+import { AuthProvider } from './context/authContext';
+import { ProductsProvider } from './context/productsContext';
 
 // Clear the existing HTML content
 document.body.innerHTML = '<div id="app"></div>';
@@ -22,7 +24,11 @@ document.body.innerHTML = '<div id="app"></div>';
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <DashboardLayout />,
+    element: (
+      <ProductsProvider>
+        <DashboardLayout />
+      </ProductsProvider>
+    ),
     children: [
       {
         index: true,
@@ -209,7 +215,9 @@ root.render(
     {/* <WrappedApp /> */}
     {/* <WrappedTest /> */}
     <ErrorBoundary>
-      <RouterProvider router={router} />
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
     </ErrorBoundary>
   </>,
 );

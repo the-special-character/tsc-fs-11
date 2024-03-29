@@ -1,3 +1,4 @@
+import { useAuth } from '../../context/authContext';
 import FormInput from '@/components/formFields/FormInput';
 import { Form, FormField } from '@/components/ui/form';
 import React, { useCallback } from 'react';
@@ -83,9 +84,11 @@ function Register() {
     },
     mode: 'all',
   });
+  const { register } = useAuth();
 
   const onSubmit = useCallback(async value => {
-    console.log(value);
+    const { confirmPassword, ...rest } = value;
+    register(rest);
   }, []);
 
   return (
