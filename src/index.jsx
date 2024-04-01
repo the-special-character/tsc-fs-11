@@ -17,6 +17,7 @@ import Register from './pages/register';
 import Login from './pages/login';
 import { AuthProvider } from './context/authContext';
 import { ProductsProvider } from './context/productsContext';
+import { CartProvider } from './context/cartContext';
 
 // Clear the existing HTML content
 document.body.innerHTML = '<div id="app"></div>';
@@ -25,9 +26,11 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: (
-      <ProductsProvider>
-        <DashboardLayout />
-      </ProductsProvider>
+      <CartProvider>
+        <ProductsProvider>
+          <DashboardLayout />
+        </ProductsProvider>
+      </CartProvider>
     ),
     children: [
       {

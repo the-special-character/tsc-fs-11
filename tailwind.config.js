@@ -87,6 +87,10 @@ module.exports = {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
       },
+      aspectRatio: {
+        vrect: 3 / 4,
+        hrect: 4 / 3,
+      },
     },
   },
   // eslint-disable-next-line global-require
