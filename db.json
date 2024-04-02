@@ -368,10 +368,27 @@
       "__v": 0
     },
     {
-      "id": 1711967988286,
+      "id": 1712053101234,
       "userId": 1,
-      "date": "Mon, 01 Apr 2024 10:39:48 GMT",
-      "products": []
+      "date": "Tue, 02 Apr 2024 10:18:21 GMT",
+      "products": [
+        {
+          "productId": 1,
+          "quantity": 1
+        },
+        {
+          "productId": 2,
+          "quantity": 1
+        },
+        {
+          "productId": 3,
+          "quantity": 1
+        },
+        {
+          "productId": 4,
+          "quantity": 1
+        }
+      ]
     }
   ]
 }

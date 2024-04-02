@@ -38,7 +38,9 @@ export function AuthProvider({ children }) {
     }
   }, []);
 
-  const logout = useCallback(() => {}, []);
+  const logout = useCallback(() => {
+    localStorage.clear();
+  }, []);
 
   const value = useMemo(
     () => ({

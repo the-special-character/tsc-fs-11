@@ -8,7 +8,7 @@
     "build": "webpack",
     "start": "webpack serve",
     "prepare": "husky install",
-    "start:server": "json-server db.json -m ./node_modules/json-server-auth"
+    "start:server": "json-server --watch db.json -m ./node_modules/json-server-auth"
   },
   "keywords": [
     "abc",
