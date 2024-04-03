@@ -34,6 +34,8 @@ const objCrudReducer = (state, { type, payload }) => {
   switch (type) {
     case `${CREATE_CART}_${SUCCESS}`:
     case `${ADD_CART_ITEM}_${SUCCESS}`:
+    case `${UPDATE_CART_ITEM}_${SUCCESS}`:
+    case `${DELETE_CART_ITEM}_${SUCCESS}`:
       return payload;
 
     default:
@@ -119,39 +121,66 @@ export function CartProvider({ children }) {
     [cartState.cart],
   );
 
-  // const updateCartItem = useCallback(async data => {
-  //   const type = UPDATE_CART_ITEM;
-  //   try {
-  //     dispatch({
-  //       type: `${type}_${REQUEST}`,
-  //       payload: { loadingPayload: {} },
-  //     });
-  //     const res = await ai.put(`660/cart/${data.id}`, data);
-  //     dispatch({
-  //       type: `${type}_${SUCCESS}`,
-  //       payload: { cartPayload: res },
-  //     });
-  //   } catch (error) {
-  //     dispatch({ type: `${type}_${FAIL}`, payload: { errorPayload: error } });
-  //   }
-  // }, []);
+  const updateCartItem = useCallback(
+    async data => {
+      const type = UPDATE_CART_ITEM;
+      try {
+        dispatch({
+          type: `${type}_${REQUEST}`,
+          payload: { loadingPayload: {} },
+        });
+        const { cart } = cartState;
+        const index = cart.products.findIndex(
+          x => x.productId === data.productId,
+        );
+        const res = await ai.put(`660/cart/${cart.id}`, {
+          ...cart,
+          products: [
+            ...cart.products.slice(0, index),
+            data,
+            ...cart.products.slice(index + 1),
+          ],
+        });
+        dispatch({
+          type: `${type}_${SUCCESS}`,
+          payload: { cartPayload: res },
+        });
+      } catch (error) {
+        dispatch({ type: `${type}_${FAIL}`, payload: { errorPayload: error } });
+      }
+    },
+    [cartState.cart],
+  );
 
-  // const deleteCartItem = useCallback(async data => {
-  //   const type = DELETE_CART_ITEM;
-  //   try {
-  //     dispatch({
-  //       type: `${type}_${REQUEST}`,
-  //       payload: { loadingPayload: {} },
-  //     });
-  //     await ai.delete(`660/cart`, data);
-  //     dispatch({
-  //       type: `${type}_${SUCCESS}`,
-  //       payload: { cartPayload: data },
-  //     });
-  //   } catch (error) {
-  //     dispatch({ type: `${type}_${FAIL}`, payload: { errorPayload: error } });
-  //   }
-  // }, []);
+  const deleteCartItem = useCallback(
+    async data => {
+      const type = DELETE_CART_ITEM;
+      try {
+        dispatch({
+          type: `${type}_${REQUEST}`,
+          payload: { loadingPayload: {} },
+        });
+        const { cart } = cartState;
+        const index = cart.products.findIndex(
+          x => x.productId === data.productId,
+        );
+        const res = await ai.put(`660/cart/${cart.id}`, {
+          ...cart,
+          products: [
+            ...cart.products.slice(0, index),
+            ...cart.products.slice(index + 1),
+          ],
+        });
+        dispatch({
+          type: `${type}_${SUCCESS}`,
+          payload: { cartPayload: res },
+        });
+      } catch (error) {
+        dispatch({ type: `${type}_${FAIL}`, payload: { errorPayload: error } });
+      }
+    },
+    [cartState.cart],
+  );
 
   useEffect(() => {
     createCart();
@@ -161,8 +190,10 @@ export function CartProvider({ children }) {
     () => ({
       cartState,
       addCartItem,
+      updateCartItem,
+      deleteCartItem,
     }),
-    [cartState, addCartItem],
+    [cartState, addCartItem, updateCartItem, deleteCartItem],
   );
 
   console.log(cartState);

@@ -17,7 +17,7 @@ function Home() {
     productsState: { products, loading, error },
   } = useProducts();
 
-  const { addCartItem, cartState } = useCart();
+  const { addCartItem, cartState, updateCartItem, deleteCartItem } = useCart();
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-3 lg:gap-4 ">
@@ -52,9 +52,16 @@ function Home() {
                 <div className="flex w-full">
                   <Button
                     className="flex-1"
-                    onClick={() =>
-                      addCartItem({ productId: product.id, quantity: 1 })
-                    }
+                    onClick={() => {
+                      if (cartItem.quantity < 10) {
+                        updateCartItem({
+                          ...cartItem,
+                          quantity: cartItem.quantity + 1,
+                        });
+                      } else {
+                        alert('you can buy max 10 items');
+                      }
+                    }}
                   >
                     +
                   </Button>
@@ -63,9 +70,16 @@ function Home() {
                   </p>
                   <Button
                     className="flex-1"
-                    onClick={() =>
-                      addCartItem({ productId: product.id, quantity: 1 })
-                    }
+                    onClick={() => {
+                      if (cartItem.quantity > 1) {
+                        updateCartItem({
+                          ...cartItem,
+                          quantity: cartItem.quantity - 1,
+                        });
+                      } else {
+                        deleteCartItem(cartItem);
+                      }
+                    }}
                   >
                     -
                   </Button>
