@@ -39,7 +39,7 @@ const objCrudReducer = (state, { type, payload }) => {
       return payload;
 
     default:
-      break;
+      return state;
   }
 };
 
@@ -103,7 +103,11 @@ export function CartProvider({ children }) {
       try {
         dispatch({
           type: `${type}_${REQUEST}`,
-          payload: { loadingPayload: {} },
+          payload: {
+            loadingPayload: {
+              id: data.productId,
+            },
+          },
         });
         const { cart } = cartState;
         const res = await ai.put(`660/cart/${cart.id}`, {
@@ -127,7 +131,11 @@ export function CartProvider({ children }) {
       try {
         dispatch({
           type: `${type}_${REQUEST}`,
-          payload: { loadingPayload: {} },
+          payload: {
+            loadingPayload: {
+              id: data.productId,
+            },
+          },
         });
         const { cart } = cartState;
         const index = cart.products.findIndex(
@@ -158,7 +166,11 @@ export function CartProvider({ children }) {
       try {
         dispatch({
           type: `${type}_${REQUEST}`,
-          payload: { loadingPayload: {} },
+          payload: {
+            loadingPayload: {
+              id: data.productId,
+            },
+          },
         });
         const { cart } = cartState;
         const index = cart.products.findIndex(

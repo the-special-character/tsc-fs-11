@@ -1,7 +1,8 @@
 /* eslint-disable max-classes-per-file */
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-// import { Toaster } from '@/components/ui/sonner';
+import { createPortal } from 'react-dom';
+import { Toaster } from '@/components/ui/sonner';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import './style.css';
@@ -20,7 +21,7 @@ import { ProductsProvider } from './context/productsContext';
 import { CartProvider } from './context/cartContext';
 
 // Clear the existing HTML content
-document.body.innerHTML = '<div id="app"></div>';
+document.body.innerHTML = '<main id="app"></main>';
 
 const router = createBrowserRouter([
   {
@@ -222,5 +223,6 @@ root.render(
         <RouterProvider router={router} />
       </AuthProvider>
     </ErrorBoundary>
+    {createPortal(<Toaster />, document.body)}
   </>,
 );

@@ -19,7 +19,7 @@ import { useProducts } from '../context/productsContext';
 function DashboardLayout() {
   const { user } = useAuth();
   const {
-    cartState: { cart },
+    cartState: { cart, loading },
     deleteCartItem,
   } = useCart();
   const {
@@ -27,6 +27,8 @@ function DashboardLayout() {
   } = useProducts();
 
   console.log(user);
+
+  console.log('loading', loading);
 
   if (!user) {
     return <Navigate to="/auth" />;
@@ -117,7 +119,19 @@ function DashboardLayout() {
               <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
                 <div className="flex justify-between text-base font-medium text-gray-900">
                   <p>Subtotal</p>
-                  <p>$262.00</p>
+                  <p>
+                    {Intl.NumberFormat('en-IN', {
+                      currency: 'INR',
+                      style: 'currency',
+                    }).format(
+                      cart?.products?.reduce((p, c) => {
+                        const product = products.find(
+                          x => x.id === c.productId,
+                        );
+                        return p + product.price * c.quantity;
+                      }, 0),
+                    )}
+                  </p>
                 </div>
                 <p className="mt-0.5 text-sm text-gray-500">
                   Shipping and taxes calculated at checkout.
