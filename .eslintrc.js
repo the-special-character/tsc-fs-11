@@ -35,5 +35,6 @@ module.exports = {
     'import/no-extraneous-dependencies': 0,
     'react/state-in-constructor': 0,
     'jsx-a11y/label-has-associated-control': 0,
+    'default-param-last': 0,
   },
 };
