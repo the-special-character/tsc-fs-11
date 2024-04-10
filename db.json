@@ -132,6 +132,13 @@
       "password": "$2a$10$KESPPuppeJNc0qcCUW0ZhOFaVbPnnZLofJ4noZZD6Y/pK/jzHc62G",
       "name": "YAGNESH MODH",
       "id": 1
+    },
+    {
+      "email": "yagnesh.modh1@gmail.com",
+      "password": "$2a$10$GG1WpUAGeErBMuG531iCLuAuJKl24gstzTcoKgPyhmrKxBLIP6ozm",
+      "name": "YAGNESH MODH",
+      "gender": "male",
+      "id": 2
     }
   ],
   "products": [
