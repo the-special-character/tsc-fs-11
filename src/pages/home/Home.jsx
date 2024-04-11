@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import axiosInstance from '../../utils';
 
-function Home({ theme, locale }) {
+function Home({ products, loadProducts }) {
   return (
     <div>
-      <h1>{`Current Theme: ${theme}`}</h1>
-      <h1>{`Current Locale: ${locale}`}</h1>
+      {products.map(x => (
+        <div key={x.id}>
+          <h2>{x.title}</h2>
+        </div>
+      ))}
     </div>
   );
 }

@@ -1,8 +1,16 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, Navigate } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-function MainLayout() {
+function MainLayout({ user }) {
+  if (!user?.accessToken) {
+    return <Navigate to="/auth" />;
+  }
   return <Outlet />;
 }
 
-export default MainLayout;
+const mapStateToProps = state => ({
+  user: state.user,
+});
+
+export default connect(mapStateToProps)(MainLayout);

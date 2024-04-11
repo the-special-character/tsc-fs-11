@@ -10,8 +10,15 @@ import About from './pages/About';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import configureStore from './configureStore';
+import axiosInstance from './utils';
 
 const store = configureStore();
+
+const user = localStorage.getItem('user');
+
+if (user) {
+  store.dispatch({ type: 'LOAD_USER_SUCCESS', payload: JSON.parse(user) });
+}
 
 document.body.innerHTML = '<main id="app"></main>';
 
@@ -23,6 +30,15 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Home />,
+        loader: async () => {
+          const res = await Promise.all([
+            axiosInstance.get('660/products'),
+            axiosInstance.get('660/cart'),
+          ]);
+          store.dispatch({ type: 'LOAD_PRODUCTS_SUCCESS', payload: res[0] });
+          store.dispatch({ type: 'LOAD_CART_SUCCESS', payload: res[1] });
+          return res;
+        },
       },
       {
         path: 'about',
