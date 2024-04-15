@@ -72,7 +72,9 @@ function Register({ register }) {
     try {
       const res = await axiosInstance.post('register', data);
       register(res);
-    } catch (error) {}
+    } catch (error) {
+      // error
+    }
   }, []);
 
   return <CustomForm fields={fields} onSubmit={onSubmit} />;

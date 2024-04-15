@@ -14,6 +14,11 @@ import axiosInstance from './utils';
 
 const store = configureStore();
 
+// store.dispatch({ type: 'LOGOUT' });
+store.dispatch({ type: 'LOGIN' });
+store.dispatch({ type: 'LOGIN' });
+store.dispatch({ type: 'LOGIN' });
+
 const user = localStorage.getItem('user');
 
 if (user) {

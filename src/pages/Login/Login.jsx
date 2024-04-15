@@ -35,7 +35,9 @@ function Login({ login }) {
       const res = await axiosInstance.post('login', data);
       localStorage.setItem('user', JSON.stringify(res));
       login(res);
-    } catch (error) {}
+    } catch (error) {
+      // error
+    }
   }, []);
 
   return <CustomForm fields={fields} onSubmit={onSubmit} />;
