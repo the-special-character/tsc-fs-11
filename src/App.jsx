@@ -2,32 +2,63 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 function App() {
   const [todoList, setTodoList] = useState([]);
   const todoTextRef = useRef();
 
-  const onAddTodo = event => {
-    event.preventDefault();
-    const todoText = todoTextRef.current.value;
-    setTodoList(val => [
-      ...val,
-      { text: todoText, isDone: false, id: new Date().valueOf() },
-    ]);
-    todoTextRef.current.value = '';
+  const onAddTodo = async event => {
+    try {
+      event.preventDefault();
+      const todoText = todoTextRef.current.value;
+
+      const res = await fetch('http://localhost:3000/todoList', {
+        method: 'POST',
+        body: JSON.stringify({ text: todoText, isDone: false }),
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+      });
+      const json = await res.json();
+
+      setTodoList(val => [json, ...val]);
+      todoTextRef.current.value = '';
+    } catch (error) {}
   };
 
-  const updateTodo = item => {
-    setTodoList(val => {
-      const index = val.findIndex(x => x.id === item.id);
-      return [
-        ...val.slice(0, index),
-        { ...val[index], isDone: !item.isDone },
-        ...val.slice(index + 1),
-      ];
-    });
+  const updateTodo = async item => {
+    try {
+      const res = await fetch(`http://localhost:3000/todoList/${item.id}`, {
+        method: 'PUT',
+        body: JSON.stringify({ ...item, isDone: !item.isDone }),
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+      });
+      const json = await res.json();
+
+      setTodoList(val => {
+        const index = val.findIndex(x => x.id === item.id);
+        return [...val.slice(0, index), json, ...val.slice(index + 1)];
+      });
+    } catch (error) {}
   };
+
+  const loadTodo = async () => {
+    try {
+      const res = await fetch('http://localhost:3000/todoList');
+      const json = await res.json();
+      setTodoList(json.reverse());
+    } catch (error) {}
+  };
+
+  // component Did mount
+  useEffect(() => {
+    loadTodo();
+  }, []);
 
   return (
     <div className="flex flex-col items-center">
