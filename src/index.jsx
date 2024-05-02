@@ -9,6 +9,7 @@ import Register from './pages/register';
 import MainLayout from './layouts/mainLayout';
 import Home1 from './pages/home/home1';
 import Home2 from './pages/home/home2';
+import AuthLayout from './layouts/authLayout';
 // import App from './App';
 
 document.body.innerHTML = '<main id="app"></main>';
@@ -21,25 +22,21 @@ const router = createBrowserRouter([
     element: <MainLayout />,
     children: [
       {
-        path: 'home1',
+        index: true,
         element: <Home />,
-        children: [
-          {
-            index: true,
-            element: <Home1 />,
-          },
-          {
-            path: 'home2',
-            element: <Home2 />,
-          },
-        ],
       },
       {
         path: 'about',
         element: <About />,
       },
+    ],
+  },
+  {
+    path: 'auth',
+    element: <AuthLayout />,
+    children: [
       {
-        path: 'login',
+        index: true,
         element: <Login />,
       },
       {
@@ -48,7 +45,6 @@ const router = createBrowserRouter([
       },
     ],
   },
-
   {
     path: '*',
     element: <div>Page not found</div>,
