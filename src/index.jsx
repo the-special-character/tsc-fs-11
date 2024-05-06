@@ -10,6 +10,7 @@ import MainLayout from './layouts/mainLayout';
 import Home1 from './pages/home/home1';
 import Home2 from './pages/home/home2';
 import AuthLayout from './layouts/authLayout';
+import Home3 from './pages/home/home3';
 // import App from './App';
 
 document.body.innerHTML = '<main id="app"></main>';
@@ -24,6 +25,24 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Home />,
+      },
+      {
+        path: 'home',
+        element: <Home />,
+        children: [
+          {
+            index: true,
+            element: <Home1 />,
+          },
+          {
+            path: 'second',
+            element: <Home2 />,
+          },
+          {
+            path: 'final',
+            element: <Home3 />,
+          },
+        ],
       },
       {
         path: 'about',

@@ -1,10 +1,10 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useRegister } from '../../contexts/register.context';
 
-function Home1() {
+function Home3() {
   const { setRegister, register: registerData } = useRegister();
   const {
     register,
@@ -13,33 +13,36 @@ function Home1() {
   } = useForm({
     defaultValues: registerData,
   });
-  const navigate = useNavigate();
 
   const onSubmit = data => {
-    setRegister(val => ({ ...val, ...data }));
-    navigate('second');
+    setRegister(val => {
+      const finalData = { ...val, ...data };
+      console.log(finalData);
+      return finalData;
+    });
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div>
-        <label htmlFor="firstName">First Name</label>
+        <label htmlFor="email">Email</label>
         <input
-          type="text"
-          id="firstName"
-          placeholder="Enter your first name here"
-          {...register('firstName', {
+          type="email"
+          id="email"
+          placeholder="Enter your email here"
+          {...register('email', {
             required: {
               value: true,
-              message: 'First Name is mendatory',
+              message: 'email is mendatory',
             },
           })}
         />
-        {errors?.firstName && <p>{errors.firstName.message}</p>}
+        {errors?.email && <p>{errors.email.message}</p>}
       </div>
+      <Link to="/home/second">Prev Page</Link>
       <button type="submit">Next Page</button>
     </form>
   );
 }
 
-export default Home1;
+export default Home3;
