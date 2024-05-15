@@ -4,6 +4,8 @@ import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import CustomInput from '../../components/customInput';
 import CustomSelect from '../../components/customSelect';
+import CustomCheckbox from '../../components/customCheckbox';
+import CustomSlider from '../../components/customSlider';
 
 const fields = [
   {
@@ -31,11 +33,25 @@ const fields = [
         value: true,
         message: 'Email is mendatory',
       },
-      validate: async data => {
-        const res = await fetch(`http://localhost:3000/users?email=${data}`);
-        const json = await res.json();
-        if (json.length > 0) return 'Email already exist';
-        return null;
+      // validate: async data => {
+      //   const res = await fetch(`http://localhost:3000/users?email=${data}`);
+      //   const json = await res.json();
+      //   if (json.length > 0) return 'Email already exist';
+      //   return null;
+      // },
+    },
+  },
+  {
+    component: CustomSlider,
+    name: 'age',
+    label: 'age',
+    min: '0',
+    max: '100',
+    step: '1',
+    rules: {
+      required: {
+        value: true,
+        message: 'Name is mendatory',
       },
     },
   },
@@ -57,6 +73,31 @@ const fields = [
       {
         value: 'other',
         text: 'Other',
+      },
+    ],
+    rules: {
+      required: {
+        value: true,
+        message: 'Gender is mendatory',
+      },
+    },
+  },
+  {
+    component: CustomCheckbox,
+    name: 'hobbies',
+    label: 'Hobbies',
+    options: [
+      {
+        value: 'cricket',
+        text: 'Cricket',
+      },
+      {
+        value: 'football',
+        text: 'Football',
+      },
+      {
+        value: 'tennis',
+        text: 'Tennis',
       },
     ],
     rules: {
@@ -98,13 +139,34 @@ function Register() {
   const {
     control,
     handleSubmit,
+    reset,
     formState: { isValid },
+    setError,
   } = useForm({
     mode: 'all',
   });
 
-  const onSubmit = value => {
-    console.log(value);
+  const onSubmit = async value => {
+    try {
+      const { confirmPassword, ...rest } = value;
+      const res = await fetch('http://localhost:3000/register', {
+        method: 'POST',
+        body: JSON.stringify(rest),
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+      });
+
+      const json = await res.json();
+      if (!res.ok) throw new Error(json);
+      localStorage.setItem('user', JSON.stringify(json));
+      reset();
+    } catch (error) {
+      setError('email', {
+        message: error.message,
+      });
+    }
   };
 
   return (

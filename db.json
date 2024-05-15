@@ -169,6 +169,29 @@
       "name": "YAGNESH MODH",
       "gender": "male",
       "id": 2
+    },
+    {
+      "email": "contact@gmail.com",
+      "password": "$2a$10$ANygq.k0Z19CScIaEZoCoeQalJbjDK0lZ0hPrBnQwB47vG4dD3Dwe",
+      "name": "YAGNESH MODH",
+      "age": "44",
+      "gender": "male",
+      "hobbies": [
+        "cricket",
+        "football"
+      ],
+      "id": 3
+    },
+    {
+      "email": "abcd@gmail.com",
+      "password": "$2a$10$az4Z5hOBcS7nfpJ2WVjyLueI.6bp9sRAgra94DRhD.xzRRkTujrW6",
+      "name": "YAGNESH MODH",
+      "age": "33",
+      "gender": "other",
+      "hobbies": [
+        "cricket"
+      ],
+      "id": 4
     }
   ],
   "products": [
