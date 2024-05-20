@@ -1,7 +1,14 @@
-import React from 'react';
-import { Outlet } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Navigate, Outlet } from 'react-router-dom';
+import { AuthContext } from '../contexts/auth.context';
 
 function AuthLayout() {
+  const { user } = useContext(AuthContext);
+
+  if (user) {
+    return <Navigate to="/" />;
+  }
+
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">

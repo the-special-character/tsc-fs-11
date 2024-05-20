@@ -11,6 +11,7 @@ function CustomInput({
   shouldUnregister = false,
   rules,
   label,
+  labelComponent,
   ...props
 }) {
   const {
@@ -27,12 +28,15 @@ function CustomInput({
 
   return (
     <div>
-      <label
-        htmlFor={name}
-        className="block text-sm font-medium leading-6 text-gray-900"
-      >
-        {label}
-      </label>
+      <div className="flex items-center justify-between">
+        <label
+          htmlFor={name}
+          className="block text-sm font-medium leading-6 text-gray-900"
+        >
+          {label}
+        </label>
+        {labelComponent && labelComponent()}
+      </div>
       <div className="mt-2">
         <input
           id={name}

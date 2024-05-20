@@ -1,11 +1,75 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import CustomInput from '../../components/customInput';
+import { AuthContext } from '../../contexts/auth.context';
+
+const fields = [
+  {
+    component: CustomInput,
+    name: 'email',
+    type: 'email',
+    label: 'Email',
+    placeholder: 'elon.musk@tesla.com',
+    autoComplete: 'email',
+    rules: {
+      required: {
+        value: true,
+        message: 'Email is mendatory',
+      },
+      // validate: async data => {
+      //   const res = await fetch(`http://localhost:3000/users?email=${data}`);
+      //   const json = await res.json();
+      //   if (json.length > 0) return 'Email already exist';
+      //   return null;
+      // },
+    },
+  },
+  {
+    component: CustomInput,
+    name: 'password',
+    type: 'password',
+    label: 'Password',
+    labelComponent: () => (
+      <div className="text-sm">
+        <a
+          href="#forgotPassword"
+          className="font-semibold text-indigo-600 hover:text-indigo-500"
+        >
+          Forgot password?
+        </a>
+      </div>
+    ),
+    autoComplete: 'new-password',
+    rules: {
+      required: {
+        value: true,
+        message: 'Password is mendatory',
+      },
+    },
+  },
+];
 
 function Login() {
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { isValid },
+    setError,
+  } = useForm({
+    mode: 'all',
+  });
+  const { login } = useContext(AuthContext);
+
   return (
     <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-      <form className="space-y-6" action="#" method="POST">
-        <div>
+      <form className="space-y-6" onSubmit={handleSubmit(login)}>
+        {fields.map(({ component: Component, ...props }) => (
+          <Component key={props.name} control={control} {...props} />
+        ))}
+
+        {/* <div>
           <label
             htmlFor="email"
             className="block text-sm font-medium leading-6 text-gray-900"
@@ -51,7 +115,7 @@ function Login() {
               className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
           </div>
-        </div>
+        </div> */}
 
         <div>
           <button

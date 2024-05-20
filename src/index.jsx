@@ -11,6 +11,7 @@ import Home1 from './pages/home/home1';
 import Home2 from './pages/home/home2';
 import AuthLayout from './layouts/authLayout';
 import Home3 from './pages/home/home3';
+import { AuthContext, AuthProvider } from './contexts/auth.context';
 // import App from './App';
 
 document.body.innerHTML = '<main id="app"></main>';
@@ -70,4 +71,10 @@ const router = createBrowserRouter([
   },
 ]);
 
-root.render(<RouterProvider router={router} />);
+root.render(
+  // <AuthContext.Provider value={{ test: 123 }}>
+  <AuthProvider>
+    <RouterProvider router={router} />
+  </AuthProvider>,
+  // </AuthContext.Provider>,
+);
