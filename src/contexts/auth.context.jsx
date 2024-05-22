@@ -35,7 +35,10 @@ export function AuthProvider({ children }) {
 
   const register = () => {};
 
-  const logout = () => {};
+  const logout = () => {
+    setUser(null);
+    localStorage.removeItem('user');
+  };
 
   return (
     <AuthContext.Provider value={{ login, register, logout, user }}>

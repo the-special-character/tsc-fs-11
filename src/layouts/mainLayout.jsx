@@ -1,4 +1,4 @@
-import React, { Fragment, useContext } from 'react';
+import React, { Fragment, useContext, useMemo } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { Navigate, Outlet } from 'react-router-dom';
@@ -17,18 +17,22 @@ const navigation = [
   { name: 'Calendar', href: '#', current: false },
   { name: 'Reports', href: '#', current: false },
 ];
-const userNavigation = [
-  { name: 'Your Profile', href: '#' },
-  { name: 'Settings', href: '#' },
-  { name: 'Sign out', href: '#' },
-];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
 function MainLayout() {
-  const { user } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
+
+  const userNavigation = useMemo(
+    () => [
+      { name: 'Your Profile', href: '#' },
+      { name: 'Settings', href: '#' },
+      { name: 'Sign out', onClick: logout },
+    ],
+    [logout],
+  );
 
   if (!user) {
     return <Navigate to="/auth" />;
@@ -106,15 +110,17 @@ function MainLayout() {
                           {userNavigation.map(item => (
                             <Menu.Item key={item.name}>
                               {({ active }) => (
-                                <a
-                                  href={item.href}
+                                <button
+                                  type="button"
+                                  onClick={item.onClick}
+                                  // href={item.href}
                                   className={classNames(
                                     active ? 'bg-gray-100' : '',
-                                    'block px-4 py-2 text-sm text-gray-700',
+                                    'block px-4 py-2 text-sm text-gray-700 w-full text-left',
                                   )}
                                 >
                                   {item.name}
-                                </a>
+                                </button>
                               )}
                             </Menu.Item>
                           ))}
