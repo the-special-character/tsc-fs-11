@@ -13,7 +13,7 @@ export function AuthProvider({ children }) {
     }
   }, []);
 
-  const login = async value => {
+  const login = async (value, reset, setError) => {
     try {
       const res = await fetch('http://localhost:3000/login', {
         method: 'POST',
@@ -25,11 +25,13 @@ export function AuthProvider({ children }) {
       });
       const json = await res.json();
       if (!res.ok) throw new Error(json);
-      console.log(json);
       setUser(json);
       localStorage.setItem('user', JSON.stringify(json));
+      reset();
     } catch (error) {
-      console.log(error.message);
+      setError('root', {
+        message: error.message,
+      });
     }
   };
 

@@ -4,6 +4,8 @@ import { useForm } from 'react-hook-form';
 import CustomInput from '../../components/customInput';
 import { AuthContext } from '../../contexts/auth.context';
 
+const wait = time => new Promise(resolve => setTimeout(resolve, time));
+
 const fields = [
   {
     component: CustomInput,
@@ -54,17 +56,22 @@ function Login() {
   const {
     control,
     handleSubmit,
+    formState: { isValid, isSubmitting, errors },
     reset,
-    formState: { isValid },
     setError,
   } = useForm({
     mode: 'all',
   });
+
   const { login } = useContext(AuthContext);
 
   return (
     <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-      <form className="space-y-6" onSubmit={handleSubmit(login)}>
+      <form
+        className="space-y-6"
+        onSubmit={handleSubmit(value => login(value, reset, setError))}
+      >
+        {errors?.root && <p>{errors?.root?.message}</p>}
         {fields.map(({ component: Component, ...props }) => (
           <Component key={props.name} control={control} {...props} />
         ))}
@@ -72,7 +79,8 @@ function Login() {
         <div>
           <button
             type="submit"
-            className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            disabled={!isValid || isSubmitting}
+            className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:bg-gray-400 disabled:cursor-wait"
           >
             Sign in
           </button>
